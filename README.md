@@ -2,6 +2,8 @@
 
 QuerySet like django's QuerySet but any iter of objects
 
+Tested by python3.5
+
 Example:
 
     from objects_query import Q, QuerySet
