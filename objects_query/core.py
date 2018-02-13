@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
 #encoding: UTF-8
 
-__version__ = '1.0'
-__author__ = 'Oleg Karakin aka blins'
-__email__ = 'blins@blins.org'
-
 import re
 
 class FilterObjects():

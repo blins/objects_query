@@ -1,5 +1,5 @@
 
-from setuptools import setup
+from setuptools import setup, find_packages
 
 import objects_query
 
@@ -9,6 +9,5 @@ setup(
     author=objects_query.__author__,
     author_email=objects_query.__email__,
     url='https://bitbucket.org/blins/objects_query/',
-    packages=['objects_query'],
-    scripts=['objects_query.py']
+    packages=find_packages(),
 )
