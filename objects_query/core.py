@@ -1,7 +1,7 @@
-#!/usr/bin/env python3
 #encoding: UTF-8
 
 import re
+from operator import attrgetter
 
 class FilterObjects():
     """
@@ -193,7 +193,10 @@ class QuerySet():
         if not self._fetched:
             self.cache = [o for o in self.iterator]
             self._fetched = True
-        
+        return self.cache
+
+    ### magic methods ###
+
     def __iter__(self):
         if self._fetched:
             for o in self.cache:
@@ -205,11 +208,16 @@ class QuerySet():
     def __len__(self):
         self.fetch_all()
         return len(self.cache)
+
+    ### end of magic methods ###
                 
     def filter(self, *args, **kwargs):
         """
-        Возвращается новый QuerySet с настроенным заданным фильтром. 
+        Возвращается новый QuerySet с настроенным заданным фильтром.
         Новый QuerySet ничего о фильтре не знает.
+        :param args:
+        :param kwargs:
+        :return: QuerySet
         """
         return type(self)(filter(self.default_q(*args, **kwargs).evaluate, self))
     
@@ -221,9 +229,20 @@ class QuerySet():
     
     def count(self):
         """
-        Количество
+        :return: Количество записей
         """
         return len(self)
+
+    def sort(self, *args, **kwargs):
+        """
+        Сортировка массива данных. При вызове этой функции данные преварительно кешируются.
+        :param args: имена аттрибутов объектов по которым производится сортировка
+        :param kwargs: reverse=(False (default)|True)
+        :return: QuerySet с новыми сортированными данными
+        """
+        if 'key' in kwargs:
+            del kwargs['key']
+        return type(self)(sorted(self, key = attrgetter(*args), **kwargs))
 
 if __name__ == "__main__":
     
